@@ -6,6 +6,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from PIL import Image
 import os
+import gdown
 
 # -----------------------------
 # Set Page
@@ -15,10 +16,28 @@ st.set_page_config(page_title="Klasifikasi Varietas Sawi", page_icon="🥬", lay
 # -----------------------------
 # Load Models
 # -----------------------------
+
+def download_model_if_missing(file_id, output_path):
+    if not os.path.exists(output_path):
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, output_path, quiet=False)
+
+# File ID dari Google Drive
+model1_drive_id = "1pOK_PLSBG2wTnBJ5DaaMBGDup1GpCkmI"
+model2_drive_id = "1RTZQes-Kj6-2D9JRRi0Smjxrf3KtZCGI"
+
+# Path file lokal
 model1_path = "0.0001FIXINIskripsikamila.h5"
 model2_path = "BISMILLAHYAALLAHINIGUI_skripsikamila.h5"
+
+# Download model jika belum ada
+download_model_if_missing(model1_drive_id, model1_path)
+download_model_if_missing(model2_drive_id, model2_path)
+
+# Load model
 model1 = load_model(model1_path) if os.path.exists(model1_path) else None
 model2 = load_model(model2_path) if os.path.exists(model2_path) else None
+
 
 # -----------------------------
 # Class Names
